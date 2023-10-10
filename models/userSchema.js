@@ -1,6 +1,5 @@
-const mongoose = require('mongoose')
-const { Schema,model } = mongoose;
-
+const mongoose = require("mongoose");
+const { Schema, model } = mongoose;
 
 const userSchema = new Schema({
   firstName: String,
@@ -14,6 +13,6 @@ const userSchema = new Schema({
   isAdmin: { type: Boolean, default: false },
 });
 
-const User = model("User", userSchema, 'users');
+const User = model("User", userSchema, "users");
 
 module.exports = User;

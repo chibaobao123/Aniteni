@@ -1,6 +1,5 @@
-const mongoose = require('mongoose')
-const { Schema,model } = mongoose;
-
+const mongoose = require("mongoose");
+const { Schema, model } = mongoose;
 
 const customersSchema = new Schema({
   firstName: String,
@@ -12,6 +11,6 @@ const customersSchema = new Schema({
   updated: { type: Date, default: Date.now },
 });
 
-const Customer = model("Customer", customersSchema, 'customers');
+const Customer = model("Customer", customersSchema, "customers");
 
 module.exports = Customer;

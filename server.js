@@ -8,8 +8,13 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const { db } = require("./db");
 
+//controller
 const UserController = require("./controllers/user");
 const ProductsController = require("./controllers/product");
+const WarehouseController = require("./controllers/warehouse");
+const ExportGoodsController = require("./controllers/exportGoods");
+
+//middleware
 const UserMiddleware = require("./middleware/authenticate_user");
 
 const dbConnect = async function connect() {
@@ -94,4 +99,42 @@ app.put(
   "/updateProduct",
   UserMiddleware.authenticate_user,
   ProductsController.updateProduct
+);
+
+//WAREHOUSE
+app.get(
+  "/warehouseUpdate/:page&:limit",
+  UserMiddleware.authenticate_user,
+  WarehouseController.warehouseupdate
+);
+
+app.get(
+  "/warehouseUpdateDetail",
+  UserMiddleware.authenticate_user,
+  WarehouseController.warehouseupdateDetail
+);
+
+app.post(
+  "/updateWarehouse",
+  UserMiddleware.authenticate_user,
+  WarehouseController.updateWarehouse
+);
+
+app.post(
+  "/searchWarehouseUpdate",
+  UserMiddleware.authenticate_user,
+  WarehouseController.searchWarehouseUpdate
+);
+
+// EXPORTGOODS
+app.post(
+  "/exportGoods",
+  UserMiddleware.authenticate_user,
+  ExportGoodsController.exportGoods
+);
+
+app.post(
+  "/searchExportGoods",
+  UserMiddleware.authenticate_user,
+  ExportGoodsController.searchExportGoods
 );

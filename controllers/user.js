@@ -3,6 +3,9 @@ const _ = require("lodash");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
+const moment = require("moment-timezone");
+const dateVietNam = moment.tz(Date.now(), "Asia/Ho_Chi_Minh").format();
+
 const User = require("../models/userSchema");
 const Customer = require("../models/customers");
 const Login = require("../models/loginSchema");
@@ -53,7 +56,9 @@ module.exports.checkJWT = async function (req, res, next) {
 module.exports.userRegistration = async (req, res) => {
   try {
     // console.log(req.body.data);
-    let objUser = req.body.data;
+    let objUser = {
+      ...req.body.data,
+    };
 
     const userSignUp = await User.findOne({ TaiKhoan: objUser.TaiKhoan });
 
@@ -123,7 +128,9 @@ module.exports.signIn = async function (req, res, next) {
   // console.log(isAuth);
 
   if (isAuth) {
-    let objUser = { ...req.body.data };
+    let objUser = {
+      ...req.body.data,
+    };
     let hash = await generatePasswordHash(objUser);
     objUser.MatKhau = hash;
     let userLogin = await Login.create(objUser);
@@ -196,9 +203,6 @@ module.exports.getSearchUsers = async (req, res) => {
 };
 
 module.exports.createbill = async (req, res) => {
-  console.log(req.body);
-  console.log(res.locals.currentUser);
-
   let user_id = res.locals.currentUser.userId;
   let customer_id = req.body.custumer._id;
   let totalOrder = req.body.cast.TongTien;
@@ -225,7 +229,9 @@ module.exports.createbill = async (req, res) => {
 
 module.exports.createNewCustomer = async (req, res) => {
   try {
-    const customer = await Customer.create(req.body);
+    const customer = await Customer.create({
+      ...req.body,
+    });
     res.status(200).json({
       customer: customer,
       message: "Tạo khách hàng mới thành công !!!",
